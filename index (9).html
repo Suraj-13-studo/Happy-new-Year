@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Happy New Year 2026 🎉</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:radial-gradient(circle,#020617,#000);
+  color:white;
+  font-family:Arial, sans-serif;
+  text-align:center;
+  overflow:hidden;
+}
+
+.year{
+  font-size:2.6em;
+  font-weight:bold;
+  margin-top:15px;
+  color:#facc15;
+  text-shadow:0 0 20px gold;
+}
+
+h1{
+  font-size:2.2em;
+  margin-top:5px;
+  animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+  from{ text-shadow:0 0 10px gold }
+  to{ text-shadow:0 0 35px red }
+}
+
+/* Fireworks */
+.firework{
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:gold;
+  border-radius:50%;
+  animation:explode 1.5s infinite;
+}
+@keyframes explode{
+  0%{transform:scale(1);opacity:1}
+  100%{transform:scale(6);opacity:0}
+}
+
+/* Receiver Name */
+#receiver{
+  font-size:3em;
+  font-weight:bold;
+  margin-top:20px;
+  background:linear-gradient(90deg,gold,orange,red,gold);
+  background-size:300% 100%;
+  -webkit-background-clip:text;
+  color:transparent;
+  animation:shine 4s linear infinite;
+  text-shadow:0 0 25px rgba(255,215,0,0.7);
+}
+
+@keyframes shine{
+  0%{background-position:0%}
+  100%{background-position:100%}
+}
+
+/* Slideshow */
+#slide{
+  font-size:2em;
+  font-weight:bold;
+  margin-top:10px;
+  color:#fde68a;
+  text-shadow:0 0 15px gold,0 0 30px orange;
+  animation:fade 3s infinite;
+}
+@keyframes fade{
+  0%{opacity:0}
+  50%{opacity:1}
+  100%{opacity:0}
+}
+
+/* Hindi Wish */
+#hindi{
+  font-size:1.6em;
+  margin:20px 15px;
+  color:#facc15;
+  text-shadow:0 0 12px #facc15;
+  animation:fade 4s infinite;
+}
+
+/* Bottom */
+#bottom{
+  position:fixed;
+  bottom:10px;
+  width:100%;
+  text-align:center;
+}
+
+button{
+  padding:14px 22px;
+  font-size:16px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#25D366;
+  color:white;
+}
+
+.footer{
+  font-size:11px;
+  color:#9ca3af;
+  margin-top:4px;
+}
+</style>
+</head>
+
+<body onclick="enableSound()">
+
+<div class="year">✨ 2026 ✨</div>
+<h1>🎉 Happy New Year 🎉</h1>
+
+<div id="receiver">✨ Dear Friend ✨</div>
+<div id="slide">Wishing You Happiness ✨</div>
+
+<div id="hindi">
+आपको और आपके पूरे परिवार को नए वर्ष की हार्दिक शुभकामनाएं
+</div>
+
+<div id="bottom">
+  <button onclick="sendSomeone()">🎁 Send Someone</button>
+  <div class="footer">this website created by suraj maurya</div>
+</div>
+
+<!-- Music (AUTOPLAY MUTED) -->
+<audio id="music" autoplay loop muted playsinline>
+  <source src="https://assets.mixkit.co/music/preview/mixkit-happy-new-year-202.mp3">
+</audio>
+
+<script>
+/* Fireworks */
+setInterval(()=>{
+  const f=document.createElement("div");
+  f.className="firework";
+  f.style.left=Math.random()*100+"vw";
+  f.style.top=Math.random()*100+"vh";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),1500);
+},250);
+
+/* Slideshow */
+const slides=[
+  "Wishing You Happiness ✨",
+  "May All Dreams Come True 🌟",
+  "Success & Peace This Year 🎊"
+];
+let si=0;
+setInterval(()=>{
+  document.getElementById("slide").innerText=slides[si];
+  si=(si+1)%slides.length;
+},3000);
+
+/* Receiver from URL */
+const params=new URLSearchParams(location.search);
+const to=params.get("to");
+if(to){
+  document.getElementById("receiver").innerText="✨ "+to+" ✨";
+}
+
+/* Enable sound on first click */
+function enableSound(){
+  const music=document.getElementById("music");
+  if(music.muted){
+    music.muted=false;
+    music.volume=1;
+    music.play();
+  }
+}
+
+/* Send Someone */
+function sendSomeone(){
+  let n=prompt("Enter receiver name");
+  if(!n) return;
+  n=n.trim()+" ji";
+
+  const link=location.origin+location.pathname+"?to="+encodeURIComponent(n);
+  const msg=
+`🎉 Happy New Year 2026 🎉
+${n}
+आपको और आपके पूरे परिवार को नए वर्ष की हार्दिक शुभकामनाएं
+👇
+${link}`;
+
+  window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");
+}
+</script>
+
+</body>
+</html>
